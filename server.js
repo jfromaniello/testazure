@@ -14,6 +14,10 @@ dbConnector.open(function(err, db){
     if(err){
       return console.log(err);
     }
+    db.on("close", function(){
+      console.log("connection was closed," +
+                  "but the driver should reconnect because we used auto_reconnect");
+    });
     console.log("inserting sample data");
     db.collection("test").insert([
       {foo: 1, bar: 2},
@@ -30,8 +34,15 @@ function startHttpServer(db){
   http.createServer(function(request, response){
   
     db.collection("test").find({}).toArray(function(err, results){
-      response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end(err || JSON.stringify(results, null , 2));
+      if(!err){
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+        response.end(JSON.stringify(results, null , 2));
+      }else{
+        response.writeHead(500, {'Content-Type': 'text/plain'});
+        response.write("message: " + err.message + "\n\n");
+        response.write("stack: " + err.stack + "\n\n");
+        response.end();
+      }
     });
 
   }).listen(process.env.port || 8989, function(){
