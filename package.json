@@ -1,0 +1,15 @@
+{
+  "name": "testazure",
+  "version": "0.0.0",
+  "description": "to test mongodb connectivity in azure websites",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "mongodb": "~1.1.7"
+  }
+}
