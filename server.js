@@ -34,11 +34,10 @@ function startHttpServer(db){
   http.createServer(function(request, response){
   
     db.collection("test").find({}).toArray(function(err, results){
+      response.writeHead(200, {'Content-Type': 'text/plain'});
       if(!err){
-        response.writeHead(200, {'Content-Type': 'text/plain'});
         response.end(JSON.stringify(results, null , 2));
       }else{
-        response.writeHead(500, {'Content-Type': 'text/plain'});
         response.write("message: " + err.message + "\n\n");
         response.write("stack: " + err.stack + "\n\n");
         response.end();
