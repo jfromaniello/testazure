@@ -1,7 +1,10 @@
 var http = require("http"),
     mongodb = require("mongodb");
 
-var mongoServer = new mongodb.Server("ds035747-a.mongolab.com", 35747, {auto_reconnect: true}),
+var mongoServer = new mongodb.Server("ds035747-a.mongolab.com", 35747, {
+      auto_reconnect: true,
+      socketOptions: { keepAlive: 10 }
+    }),
     dbConnector = new mongodb.Db("testauth", mongoServer, {});
 
 mongoServer.on("error", function(err){
