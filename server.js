@@ -4,6 +4,10 @@ var http = require("http"),
 var mongoServer = new mongodb.Server("ds035747-a.mongolab.com", 35747, {auto_reconnect: true}),
     dbConnector = new mongodb.Db("testauth", mongoServer, {});
 
+mongoServer.on("error", function(err){
+  console.log("error in server:", server);
+});
+
 console.log("connecting");
 dbConnector.open(function(err, db){
   if(err){
@@ -17,6 +21,9 @@ dbConnector.open(function(err, db){
     db.on("close", function(){
       console.log("connection was closed," +
                   "but the driver should reconnect because we used auto_reconnect");
+    });
+    db.on("error", function(err){
+      console.log("error in db:", err);
     });
     console.log("inserting sample data");
     db.collection("test").insert([
