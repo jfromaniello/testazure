@@ -3,7 +3,7 @@ var http = require("http"),
 
 var mongoServer = new mongodb.Server("ds035747-a.mongolab.com", 35747, {
       auto_reconnect: true,
-      socketOptions: { keepAlive: 10 }
+      socketOptions: { keepAlive: 300 }
     }),
     dbConnector = new mongodb.Db("testauth", mongoServer, {});
 
